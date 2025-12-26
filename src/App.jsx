@@ -16,7 +16,7 @@ export default function App() {
 
   useEffect(() => {
     const headerHeight = 80;
-    const sectionIds = ["home", "about", "skills", "projects", "contact"];
+    const sectionIds = ["home", "about", "skills", "projects", "certifications", "contact"];
     const onScroll = () => {
       let current = "home";
       for (const id of sectionIds) {

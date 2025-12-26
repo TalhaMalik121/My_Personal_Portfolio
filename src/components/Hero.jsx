@@ -1,79 +1,85 @@
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-
-const mustard = "#F0A500";
-const purple = "#6D28D9";
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 
 export default function Hero() {
-  const fullText = "Hi, I’m Muhammad Talha";
-  const [typed, setTyped] = useState("");
-
-  useEffect(() => {
-    let i = 0;
-    setTyped("");
-    const id = setInterval(() => {
-      if (i < fullText.length) {
-        setTyped(fullText.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(id);
-      }
-    }, 80);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <section id="home" className="pb-16 px-5">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
-        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center"
-      >
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      {/* Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-[128px] animate-pulse-slow" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-[128px] animate-pulse-slow delay-1000" />
+      </div>
+
+      <div className="container mx-auto px-6 z-10 grid md:grid-cols-2 gap-12 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">{typed}</h1>
-          <p className="mt-3 text-gray-200">Computer Science Student | Developer | Tech Enthusiast</p>
-          <p className="mt-4 text-gray-300 max-w-xl">
-            I build smart applications using Python, AI/ML, and modern web technologies.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm"
+          >
+            <span className="text-secondary font-medium">Available for work</span>
+          </motion.div>
+
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold font-heading leading-tight mb-6">
+            Building digital <br />
+            <span className="text-gradient">experiences</span> that matter.
+          </h1>
+
+          <p className="text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
+            I'm Talha, a creative developer focused on building scalable, user-centric web applications with modern technologies.
           </p>
-          <div className="mt-6 flex gap-4">
+
+          <div className="flex gap-4 items-center">
             <a
-              href="/resume.pdf"
-              download
-              aria-label="Download resume (PDF)"
-              className="px-6 py-3 rounded-full font-semibold text-black shadow-md transition-transform hover:scale-105"
-              style={{ background: mustard }}
+              href="#projects"
+              className="px-8 py-4 rounded-full bg-white text-black font-bold hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]"
             >
-              Download Resume
+              View Work
             </a>
-            <a
-              href="#contact"
-              onClick={(e)=>{e.preventDefault(); const el=document.getElementById("contact"); if(el){window.scrollTo({top: el.offsetTop-80, behavior:"smooth"})}}}
-              className="px-6 py-3 rounded-full font-semibold text-white shadow-md relative overflow-hidden cursor-pointer glow-effect transition-transform hover:scale-105"
-              style={{ background: purple }}
-            >
-              <span className="relative z-10">Let’s Talk</span>
-            </a> 
+            <div className="flex gap-4 ml-6">
+              {[Github, Linkedin, Mail].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:scale-110 transform duration-200"
+                >
+                  <Icon size={20} className="text-gray-300" />
+                </a>
+              ))}
+            </div>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-          className="flex justify-center md:justify-end"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative order-first md:order-last"
         >
-          <img
-            src="/Img1.jpg"
-            alt="Portrait of Muhammad Talha"
-            loading="lazy"
-            className="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover ring-4"
-            style={{ ringColor: mustard }}
-          />
+          <div className="relative w-64 h-64 md:w-80 md:h-96 mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-2xl blur-lg opacity-50 animate-float" />
+            <img
+              src="/Img1.jpg"
+              alt="Profile"
+              className="w-full h-full object-cover rounded-2xl border border-white/10 relative z-10 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500"
+            />
+          </div>
         </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 1, repeat: Infinity, repeatType: "reverse" }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500"
+      >
+        <ArrowDown size={24} />
       </motion.div>
     </section>
   );
