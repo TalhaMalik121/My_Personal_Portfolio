@@ -106,7 +106,7 @@ export default function Skills() {
               className="p-6 rounded-2xl bg-black/40 flex flex-col items-center justify-center gap-3 text-center cursor-pointer"
             >
               <div className="text-yellow-400 text-4xl">
-                <img src={s.icon} alt={s.name} className="w-12 h-12" />
+                <img src={s.icon} alt={s.name} loading="lazy" className="w-12 h-12" />
               </div>
               <p className="font-medium">{s.name}</p>
             </motion.div>

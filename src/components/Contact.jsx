@@ -85,7 +85,7 @@ export default function Contact() {
           >
             <p className="font-semibold">WhatsApp</p>
             <p className="text-sm">+92 319 789 5802</p>
-            <a href="https://wa.me/923197895802" className="mt-3 inline-block text-sm text-purple-900 underline">
+            <a href="https://wa.me/923197895802" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm text-purple-900 underline">
               Send me a message
             </a>
           </motion.div>

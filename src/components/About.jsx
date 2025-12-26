@@ -20,14 +20,17 @@ export default function About() {
           About Me
         </motion.h2>
 
+        <div className="my-12" />
+
         <div className="mt-8 grid md:grid-cols-[1fr_1.2fr] gap-8 items-center">
           <motion.img
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
             //src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=600&auto=format&fit=crop"
-            src="/Img2.jpg"
-            alt="About placeholder"
-            className="rounded-2xl object-cover w-full h-64 md:h-72 ring-4"
+            src="/Img4.jpg"
+            alt="Portrait of Muhammad Talha"
+            loading="lazy"
+            className="rounded-2xl object-contain w-64 md:w-80 h-auto ring-4 mx-auto"
             style={{ ringColor: mustard }}
           />
           <motion.p

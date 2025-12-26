@@ -64,6 +64,14 @@ export default function Navbar({ active }) {
               ></span>
             </a>
           ))}
+          <a
+            href="/resume.pdf"
+            download
+            aria-label="Download resume (PDF)"
+            className="ml-4 px-4 py-2 rounded-full bg-yellow-400 text-black font-semibold hover:scale-105 transition-transform"
+          >
+            Resume
+          </a>
         </div>
 
         {/* Hamburger Button (mobile only) */}
@@ -108,6 +116,15 @@ export default function Navbar({ active }) {
               {l.label}
             </a>
           ))}
+          <a
+            href="/resume.pdf"
+            download
+            aria-label="Download resume (PDF)"
+            className="block px-4 py-3 text-white hover:bg-yellow-400 hover:text-black transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Resume
+          </a>
         </div>
       )}
     </motion.nav>

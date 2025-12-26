@@ -14,6 +14,10 @@ export default {
       },
       boxShadow: {
         brand: "0 0 20px rgba(240,165,0,0.6)"
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial'],
+        heading: ['Poppins', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto']
       }
     },
   },

@@ -146,7 +146,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="px-5 py-12 bg-black/20">
+    <section id="projects" className="px-5 py-12 bg-deepNavy">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -182,6 +182,7 @@ export default function Projects() {
                 <img
                   src={p.image}
                   alt={p.name}
+                  loading="lazy"
                   className="w-full h-48 object-cover transition-transform hover:scale-105 active:scale-105" // ✅ active:scale-105 for mobile
                 />
               </div>
@@ -193,7 +194,7 @@ export default function Projects() {
                   <a
                     href={p.github}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="px-4 py-2 rounded-full text-white font-semibold transition-all hover:bg-yellow-400 hover:text-black active:scale-105"
                     style={{ background: purple }}
                   >
@@ -205,7 +206,7 @@ export default function Projects() {
                     <a
                       href={p.demo}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="px-4 py-2 rounded-full text-white font-semibold transition-all hover:bg-yellow-400 hover:text-black active:scale-105"
                       style={{ background: mustard }}
                     >

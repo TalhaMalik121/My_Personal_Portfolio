@@ -42,7 +42,9 @@ export default function Hero() {
           </p>
           <div className="mt-6 flex gap-4">
             <a
-              href="MyResume.pdf"
+              href="/resume.pdf"
+              download
+              aria-label="Download resume (PDF)"
               className="px-6 py-3 rounded-full font-semibold text-black shadow-md transition-transform hover:scale-105"
               style={{ background: mustard }}
             >
@@ -55,7 +57,7 @@ export default function Hero() {
               style={{ background: purple }}
             >
               <span className="relative z-10">Let’s Talk</span>
-            </a>
+            </a> 
           </div>
         </motion.div>
 
@@ -66,7 +68,8 @@ export default function Hero() {
         >
           <img
             src="/Img1.jpg"
-            alt="Your portrait placeholder"
+            alt="Portrait of Muhammad Talha"
+            loading="lazy"
             className="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover ring-4"
             style={{ ringColor: mustard }}
           />
