@@ -47,8 +47,8 @@ export default function Navbar() {
       >
         <div
           className={`relative flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500 border ${scrolled || mobileOpen
-            ? "bg-slate-900/80 backdrop-blur-lg border-white/10 shadow-2xl shadow-primary/5 w-full max-w-5xl"
-            : "bg-surface/50 backdrop-blur-md border-white/5 w-full max-w-5xl hover:border-white/10"
+            ? "bg-slate-900/80 backdrop-blur-lg border-white/10 shadow-2xl shadow-primary/5 w-full max-w-7xl"
+            : "bg-surface/50 backdrop-blur-md border-white/5 w-full max-w-7xl hover:border-white/10"
             }`}
         >
           {/* Brand Name */}

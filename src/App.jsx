@@ -8,10 +8,13 @@ import Projects from "./components/Projects";
 
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Cursor from "./components/Cursor";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-background text-slate-200 font-sans selection:bg-primary/30 selection:text-white">
+
+      <Cursor />
 
       {/* Noise Overlay */}
       <div
@@ -29,7 +32,7 @@ export default function App() {
         <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px] opacity-40" />
       </div>
 
-      <main className="max-w-5xl mx-auto px-6 md:px-12 pb-20 pt-24 space-y-32 relative z-10">
+      <main className="max-w-7xl mx-auto px-6 md:px-12 pb-20 pt-24 space-y-32 relative z-10">
         <Hero />
         <About />
         <Skills />
