@@ -120,7 +120,7 @@ export default function Hero() {
           >
             <motion.a
               href="#projects"
-              className="relative inline-flex px-6 py-3 md:px-8 md:py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25 text-sm md:text-base"
+              className="relative inline-flex px-5 py-2.5 md:px-8 md:py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25 text-sm md:text-base shrink-0"
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
@@ -135,11 +135,11 @@ export default function Hero() {
 
             <motion.a
               href="#contact"
-              className="px-6 py-3 md:px-8 md:py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2 text-sm md:text-base"
+              className="px-5 py-2.5 md:px-8 md:py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2 text-sm md:text-base shrink-0"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              Let's Connect <Send size={18} />
+              Let's Connect <Send size={16} className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             </motion.a>
             <div className="flex gap-3">
               {[
@@ -152,9 +152,9 @@ export default function Hero() {
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="p-4 rounded-xl bg-surface border border-white/10 text-slate-400 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:scale-110 hover:-translate-y-1"
+                  className="p-2.5 md:p-4 rounded-xl bg-surface border border-white/10 text-slate-400 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:scale-110 hover:-translate-y-1 shrink-0"
                 >
-                  <Icon size={20} />
+                  <Icon size={20} className="w-4 h-4 md:w-5 md:h-5" />
                 </a>
               ))}
             </div>

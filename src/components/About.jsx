@@ -89,7 +89,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="mt-12 grid grid-cols-3 gap-3 md:gap-6">
               {stats.map((stat, i) => (
                 <motion.div
                   key={i}
@@ -98,7 +98,7 @@ export default function About() {
                   whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
                   transition={{ delay: i * 0.1, duration: 0.3 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-md border border-white/5 py-2 px-8 rounded-xl flex flex-col items-center justify-center text-center gap-1.5 shadow-lg hover:border-primary/20 hover:bg-white/10 transition-all duration-300 group cursor-default"
+                  className="bg-white/5 backdrop-blur-md border border-white/5 py-4 px-2 md:py-2 md:px-8 rounded-xl flex flex-col items-center justify-center text-center gap-1.5 shadow-lg hover:border-primary/20 hover:bg-white/10 transition-all duration-300 group cursor-default"
                 >
                   <div className={`p-2 rounded-full bg-white/5 ${stat.color} group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-inner ring-1 ring-white/5`}>
                     <stat.icon size={16} />

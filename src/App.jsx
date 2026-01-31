@@ -8,13 +8,10 @@ import Projects from "./components/Projects";
 
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Cursor from "./components/Cursor";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-background text-slate-200 font-sans selection:bg-primary/30 selection:text-white">
-
-      <Cursor />
 
       {/* Noise Overlay */}
       <div
