@@ -66,7 +66,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Info */}
           <div className="space-y-6">
             <motion.div
@@ -80,7 +80,7 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold font-heading text-white">Email</h3>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors break-all">
                   talhagulsher7782@gmail.com
                 </a>
               </div>
@@ -164,8 +164,8 @@ export default function Contact() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20 }}
-            className={`fixed bottom-8 right-8 px-6 py-4 rounded-xl shadow-2xl backdrop-blur-md border border-white/10 ${toast.type === "success" ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-red-500/10 text-red-400 border-red-500/20"
-              } font-medium flex items-center gap-3`}
+            className={`fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:w-auto px-6 py-4 rounded-xl shadow-2xl backdrop-blur-md border border-white/10 ${toast.type === "success" ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-red-500/10 text-red-400 border-red-500/20"
+              } font-medium flex items-center justify-center gap-3 z-50`}
           >
             {toast.msg}
           </motion.div>

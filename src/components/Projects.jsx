@@ -83,6 +83,7 @@ const projects = [
 
 export default function Projects() {
   const [filter, setFilter] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const filteredProjects = useMemo(() => {
     return filter === "All" ? projects : projects.filter(p => p.category === filter);
@@ -136,7 +137,10 @@ export default function Projects() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 key={p.name}
-                className="group relative flex flex-col h-full bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
+                className={clsx(
+                  "group relative flex-col h-full bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2",
+                  !showAll && i >= 3 ? "hidden md:flex" : "flex"
+                )}
               >
                 {/* Image Container */}
                 <div className="relative h-52 overflow-hidden bg-slate-900/50 border-b border-white/5 group-hover:border-primary/20 transition-colors">
@@ -225,6 +229,18 @@ export default function Projects() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Mobile View More Button */}
+        {!showAll && filteredProjects.length > 3 && (
+          <div className="mt-8 text-center md:hidden">
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-6 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium hover:bg-white/10 hover:text-white transition-all"
+            >
+              View More Projects
+            </button>
+          </div>
+        )}
 
 
 

@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Code2, Cpu, Globe, Server, Database, Network, Terminal, Layers } from "lucide-react";
 
 const services = [
@@ -38,6 +39,17 @@ const services = [
 ];
 
 export default function Services() {
+    const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        if (isPaused) return;
+        const interval = setInterval(() => {
+            setCurrentServiceIndex((prev) => (prev + 1) % services.length);
+        }, 3000); // Change every 3 seconds
+        return () => clearInterval(interval);
+    }, [isPaused]);
+
     return (
         <section id="services" className="py-20 relative scroll-mt-32">
             {/* Background Elements */}
@@ -59,7 +71,8 @@ export default function Services() {
                     </p>
                 </motion.div>
 
-                <div className="grid md:grid-cols-3 gap-8">
+                {/* Desktop Grid */}
+                <div className="hidden md:grid md:grid-cols-3 gap-8">
                     {services.map((service, i) => (
                         <motion.div
                             key={service.title}
@@ -100,6 +113,73 @@ export default function Services() {
                             </div>
                         </motion.div>
                     ))}
+                </div>
+
+                {/* Mobile Carousel */}
+                <div
+                    className="md:hidden relative min-h-[700px]"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setIsPaused(false)}
+                >
+                    <AnimatePresence>
+                        <motion.div
+                            key={currentServiceIndex}
+                            initial={{ opacity: 0, x: 100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -100 }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            className={`absolute inset-0 bg-surface/50 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-300 group overflow-hidden`}
+                        >
+                            {/* Hover Gradient Overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-br ${services[currentServiceIndex].gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
+
+                            <div className="relative z-10 flex flex-col h-full">
+                                {/* Icon Container */}
+                                <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    {services[currentServiceIndex].icon}
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 transition-all">
+                                    {services[currentServiceIndex].title}
+                                </h3>
+
+                                <p className="text-slate-400 mb-8 leading-relaxed">
+                                    {services[currentServiceIndex].description}
+                                </p>
+
+                                <div className="mt-auto space-y-4">
+                                    {services[currentServiceIndex].features.map((feature, idx) => (
+                                        <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-current mt-2 shrink-0 opacity-70" style={{ color: currentServiceIndex === 0 ? '#3b82f6' : currentServiceIndex === 1 ? '#a855f7' : '#10b981' }} />
+                                            <div>
+                                                <h4 className="text-sm font-semibold text-slate-200">{feature.name}</h4>
+                                                <p className="text-xs text-slate-500">{feature.details}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Indicators */}
+                    <div className="absolute -bottom-12 left-0 right-0 flex flex-col items-center gap-3">
+                        <p className="text-xs text-slate-500 animate-pulse flex items-center gap-1">
+                            Swipe to explore <span className="text-primary">→</span>
+                        </p>
+                        <div className="flex justify-center gap-2">
+                            {services.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrentServiceIndex(idx)}
+                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${currentServiceIndex === idx ? "bg-primary w-6" : "bg-white/20 hover:bg-white/40"
+                                        }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
 
