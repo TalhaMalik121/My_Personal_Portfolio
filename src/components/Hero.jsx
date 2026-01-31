@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Send } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Send, Download } from "lucide-react";
 
 
 const containerVariants = {
@@ -119,8 +119,9 @@ export default function Hero() {
             className="flex flex-wrap gap-4 items-center"
           >
             <motion.a
-              href="#projects"
-              className="relative inline-flex px-5 py-2.5 md:px-8 md:py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25 text-sm md:text-base shrink-0"
+              href="/resume.pdf"
+              download="Muhammad_Talha_Resume.pdf"
+              className="relative inline-flex px-5 py-2.5 md:px-8 md:py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25 text-sm md:text-base shrink-0 items-center gap-2"
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
@@ -130,7 +131,7 @@ export default function Hero() {
                 animate={{ x: "150%" }}
                 transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 3 }}
               />
-              <span className="relative z-10">Explore Work</span>
+              <span className="relative z-10 flex items-center gap-2">Resume <Download size={18} /></span>
             </motion.a>
 
             <motion.a
@@ -171,7 +172,7 @@ export default function Hero() {
           }}
           className="relative order-1 md:order-2 flex justify-center"
         >
-          <div className="relative w-72 h-72 md:w-96 md:h-96">
+          <div className="relative w-80 h-80 md:w-[28rem] md:h-[28rem]">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-full blur-3xl opacity-30 animate-pulse-slow" />
             <div className="relative w-full h-full rounded-full p-2 bg-gradient-to-tr from-slate-800 to-slate-900 ring-1 ring-white/10 shadow-2xl">
               <img

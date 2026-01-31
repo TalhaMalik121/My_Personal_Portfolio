@@ -83,103 +83,32 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Actions */}
+          {/* Actions - Resume Removed */}
           <div className="hidden md:flex items-center gap-3">
-            <Magnetic>
-              <button
-                className="px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm hover:shadow-lg hover:shadow-primary/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
-              >
-                <Download size={16} /> <span className="hidden lg:inline">Resume</span>
-              </button>
-            </Magnetic>
+            {/* Space kept for potential future actions or removed entirely if valid */}
           </div>
 
-          {/* Mobile Toggle */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            className="md:hidden p-2 text-white bg-white/5 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <AnimatePresence mode="wait">
-              {mobileOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={24} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu size={24} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="fixed top-24 left-4 right-4 z-50 md:hidden glass p-6 rounded-3xl border border-white/10 shadow-2xl"
+      {/* Mobile Bottom Dock navigation */}
+      < div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm" >
+        <div className="flex items-center justify-between px-6 py-4 rounded-full bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-primary/10 ring-1 ring-white/5">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={() => setActiveSection(item.id)}
+              className={`relative p-2 rounded-full transition-all duration-300 ${activeSection === item.id ? "text-white bg-white/10" : "text-slate-400 hover:text-white"}`}
             >
-              <div className="flex flex-col gap-2">
-                {navItems.map((item, i) => (
-                  <motion.a
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    key={item.id}
-                    href={`#${item.id}`}
-                    onClick={() => {
-                      setActiveSection(item.id);
-                      setMobileOpen(false);
-                    }}
-                    className={`flex items-center gap-4 p-4 rounded-xl transition-all ${activeSection === item.id
-                      ? "bg-primary/20 text-white border border-primary/20"
-                      : "text-slate-400 hover:bg-white/5 hover:text-white"
-                      }`}
-                  >
-                    <item.icon size={20} className={activeSection === item.id ? "text-primary" : ""} />
-                    <span className="font-medium text-lg">{item.label}</span>
-                  </motion.a>
-                ))}
-                <div className="h-px bg-white/10 my-2" />
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold flex items-center justify-center gap-2 shadow-lg"
-                >
-                  <Download size={20} /> Resume
-                </motion.button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              <item.icon size={20} />
+              {activeSection === item.id && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+              )}
+            </a>
+          ))}
+        </div>
+      </div >
     </>
   );
 }
