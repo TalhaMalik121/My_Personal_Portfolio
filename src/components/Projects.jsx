@@ -8,7 +8,7 @@ const categories = ["All", "Web", "AI/ML", "Programming"];
 const projects = [
   {
     name: "Sign Language Detection SAAS App",
-    desc: "Real-time sign language recognition system using computer vision.",
+    desc: "Real-time sign language translation using computer vision.",
     tags: ["Python", "OpenCV", "TensorFlow"],
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Sign-Language-Detector-Web.git",
@@ -17,7 +17,7 @@ const projects = [
   },
   {
     name: "Campus Issue Tracker",
-    desc: "A comprehensive bug tracking and project management tool.",
+    desc: "Platform for managing campus facility issues.",
     tags: ["React", "Node.js", "MongoDB"],
     category: "Web",
     github: {
@@ -29,7 +29,7 @@ const projects = [
   },
   {
     name: "Empathy-AI",
-    desc: "A platform focused on mental health awareness and community support.",
+    desc: "AI-powered mental health support platform.",
     tags: ["React", "TailwindCSS", "Firebase"],
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Empathy-AI.git",
@@ -38,7 +38,7 @@ const projects = [
   },
   {
     name: "TODO List App",
-    desc: "A sleek task management tool built with React and modern CSS.",
+    desc: "Simple task manager with local storage.",
     tags: ["React", "CSS3", "Local Storage"],
     category: "Web",
     github: "https://github.com/SHAH2004-creator/pythoneeer-TO-DO",
@@ -49,7 +49,7 @@ const projects = [
 
   {
     name: "Digit Recognizer",
-    desc: "Handwritten digit recognition utilizing TensorFlow and CNNs.",
+    desc: "Handwritten digit classification using CNNs.",
     tags: ["Python", "TensorFlow", "OpenCV"],
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Digit_Recognizer",
@@ -57,7 +57,7 @@ const projects = [
   },
   {
     name: "Group Chat Application",
-    desc: "A multi-client chat application utilizing Java Sockets for real-time communication.",
+    desc: "Multi-threaded chat server using Java Sockets.",
     tags: ["Java", "Sockets", "Multi-threading"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Group-Chat-Application",
@@ -65,7 +65,7 @@ const projects = [
   },
   {
     name: "Catering Management System",
-    desc: "A GUI-based Java desktop application for catering services.",
+    desc: "Desktop application for catering management.",
     tags: ["Java", "Swing", "OOP", "File Handling"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Catering-Management-System.git",
@@ -73,7 +73,7 @@ const projects = [
   },
   {
     name: "Pharmacy Management System",
-    desc: "A console-based application for managing pharmacy stock and sales.",
+    desc: "Console-based pharmacy inventory system.",
     tags: ["C++", "File Handling"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Pharmacy-Management-System",

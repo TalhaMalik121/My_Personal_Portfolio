@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Code2, Cpu, Globe, Server, Database, Network, Terminal, Layers } from "lucide-react";
+import { Code2, Cpu, Globe, Server, Database, Network, Terminal } from "lucide-react";
 
 const services = [
     {
@@ -117,27 +117,55 @@ export default function Services() {
 
                 {/* Mobile Carousel */}
                 <div
-                    className="md:hidden relative min-h-[700px]"
+                    className="md:hidden relative"
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                     onTouchStart={() => setIsPaused(true)}
                     onTouchEnd={() => setIsPaused(false)}
                 >
+                    {/* Hint (Top) */}
+                    <div className="absolute -top-8 left-0 right-0 flex justify-center z-20">
+                        <p className="text-xs text-slate-500 animate-pulse flex items-center gap-1">
+                            <span className="text-primary">←</span> Swipe to explore <span className="text-primary">→</span>
+                        </p>
+                    </div>
+
+                    {/* Height Spacer (Invisible Copy of Tallest Service) */}
+                    <div className="invisible pointer-events-none relative p-8 border border-transparent">
+                        <div className="mb-6 inline-block p-4"><div className="w-10 h-10"></div></div>
+                        <h3 className="text-2xl font-bold mb-3">Programming & Networking</h3>
+                        <p className="mb-8 leading-relaxed">Developing intelligent systems for computer vision and data analysis. Robust software solutions.</p>
+                        <div className="space-y-4">
+                            {[1, 2, 3].map(i => <div key={i} className="p-3"><h4 className="text-sm">Title</h4><p className="text-xs">Detail text goes here</p></div>)}
+                        </div>
+                    </div>
+
                     <AnimatePresence>
                         <motion.div
                             key={currentServiceIndex}
                             initial={{ opacity: 0, x: 100 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -100 }}
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
-                            className={`absolute inset-0 bg-surface/50 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-300 group overflow-hidden`}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={1}
+                            onDragEnd={(e, { offset, velocity }) => {
+                                const swipe = Math.abs(offset.x) * velocity.x;
+                                if (swipe < -100 || offset.x < -100) {
+                                    setCurrentServiceIndex((prev) => (prev + 1) % services.length);
+                                } else if (swipe > 100 || offset.x > 100) {
+                                    setCurrentServiceIndex((prev) => (prev - 1 + services.length) % services.length);
+                                }
+                            }}
+                            className={`absolute inset-0 bg-surface/50 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-300 group overflow-hidden touch-pan-y`}
                         >
                             {/* Hover Gradient Overlay */}
                             <div className={`absolute inset-0 bg-gradient-to-br ${services[currentServiceIndex].gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
 
-                            <div className="relative z-10 flex flex-col h-full">
+                            <div className="relative z-10 flex flex-col h-full select-none">
                                 {/* Icon Container */}
-                                <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 shadow-lg group-hover:scale-110 transition-transform duration-300 pointer-events-none">
                                     {services[currentServiceIndex].icon}
                                 </div>
 
@@ -165,38 +193,20 @@ export default function Services() {
                     </AnimatePresence>
 
                     {/* Indicators */}
-                    <div className="absolute -bottom-12 left-0 right-0 flex flex-col items-center gap-3">
-                        <p className="text-xs text-slate-500 animate-pulse flex items-center gap-1">
-                            Swipe to explore <span className="text-primary">→</span>
-                        </p>
-                        <div className="flex justify-center gap-2">
-                            {services.map((_, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => setCurrentServiceIndex(idx)}
-                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${currentServiceIndex === idx ? "bg-primary w-6" : "bg-white/20 hover:bg-white/40"
-                                        }`}
-                                />
-                            ))}
-                        </div>
+                    <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
+                        {services.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentServiceIndex(idx)}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${currentServiceIndex === idx ? "bg-primary w-6" : "bg-white/20 hover:bg-white/40"
+                                    }`}
+                            />
+                        ))}
                     </div>
                 </div>
 
 
-                {/* Call to Action */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="mt-16 text-center"
-                >
-                    <a
-                        href="#contact"
-                        className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-slate-900 border border-white/10 text-white font-bold hover:bg-white/10 hover:border-primary/50 hover:text-primary transition-all duration-300 shadow-lg hover:shadow-primary/20 transform hover:-translate-y-1"
-                    >
-                        Let's Discuss Your Project <Layers size={18} />
-                    </a>
-                </motion.div>
+
             </div>
         </section >
     );

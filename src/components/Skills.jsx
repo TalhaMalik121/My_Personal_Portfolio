@@ -106,22 +106,51 @@ export default function Skills() {
 
         {/* Mobile Carousel */}
         <div
-          className="md:hidden relative min-h-[600px]"
+          className="md:hidden relative"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
         >
+          {/* Hint (Top) */}
+          <div className="absolute -top-8 left-0 right-0 flex justify-center z-20">
+            <p className="text-xs text-slate-500 animate-pulse flex items-center gap-1">
+              <span className="text-primary">←</span> Swipe to explore <span className="text-primary">→</span>
+            </p>
+          </div>
+
+          {/* Height Spacer (Invisible Copy of Tallest Card) */}
+          <div className="invisible pointer-events-none relative p-8 border border-transparent">
+            <h3 className="text-xl font-bold mb-8 text-center pb-4">AI & Tools</h3>
+            <div className="flex flex-col gap-3">
+              {/* Render max items (6) to force height */}
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="px-4 py-3 rounded-xl border border-transparent bg-white/5"><span className="text-sm">&nbsp;</span></div>
+              ))}
+            </div>
+          </div>
+
           <AnimatePresence>
             <motion.div
               key={currentGroupIndex}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0 bg-surface/50 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-primary/30 transition-all duration-300 shadow-2xl shadow-primary/5"
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = Math.abs(offset.x) * velocity.x;
+                if (swipe < -100 || offset.x < -100) {
+                  setCurrentGroupIndex((prev) => (prev + 1) % skillGroups.length);
+                } else if (swipe > 100 || offset.x > 100) {
+                  setCurrentGroupIndex((prev) => (prev - 1 + skillGroups.length) % skillGroups.length);
+                }
+              }}
+              className="absolute inset-0 bg-surface/50 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-primary/30 shadow-2xl shadow-primary/5 touch-pan-y"
             >
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 mb-8 text-center relative pb-4">
+              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 mb-8 text-center relative pb-4 select-none">
                 {skillGroups[currentGroupIndex].title}
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500 opacity-100 shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
               </h3>
@@ -130,13 +159,13 @@ export default function Skills() {
                 {skillGroups[currentGroupIndex].skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-transparent bg-white/5 border-white/10 transition-all duration-300 cursor-default w-full"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-transparent bg-white/5 border-white/10 transition-all duration-300 cursor-default w-full select-none"
                   >
                     <div className="w-6 h-6 flex items-center justify-center shrink-0">
                       <img
                         src={skill.icon}
                         alt={skill.name}
-                        className="w-full h-full object-contain transition-all opacity-100"
+                        className="w-full h-full object-contain transition-all opacity-100 pointer-events-none"
                       />
                     </div>
                     <span className="text-sm font-bold text-white transition-colors">
@@ -149,20 +178,15 @@ export default function Skills() {
           </AnimatePresence>
 
           {/* Indicators */}
-          <div className="absolute -bottom-12 left-0 right-0 flex flex-col items-center gap-3">
-            <p className="text-xs text-slate-500 animate-pulse flex items-center gap-1">
-              Swipe to explore <span className="text-primary">→</span>
-            </p>
-            <div className="flex justify-center gap-2">
-              {skillGroups.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentGroupIndex(idx)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${currentGroupIndex === idx ? "bg-primary w-6" : "bg-white/20 hover:bg-white/40"
-                    }`}
-                />
-              ))}
-            </div>
+          <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
+            {skillGroups.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentGroupIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${currentGroupIndex === idx ? "bg-primary w-6" : "bg-white/20 hover:bg-white/40"
+                  }`}
+              />
+            ))}
           </div>
         </div>
       </div>

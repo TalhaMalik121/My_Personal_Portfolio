@@ -78,7 +78,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-white/10 mb-8 shadow-lg shadow-black/20 backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-white font-medium text-sm">Available for work</span>
+            <span className="text-white font-medium text-sm">Ready to Innovate</span>
           </motion.div>
 
           <motion.h1
@@ -109,7 +109,7 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-lg md:text-xl text-slate-400 mb-10 max-w-lg leading-relaxed"
           >
-            Building Intelligent Systems with AI, Machine Learning, Computer Vision and Full-Stack Engineering
+            Merging Full-Stack Engineering with Artificial Intelligence to build scalable, intelligent, and impactful digital solutions.
           </motion.p>
 
           <motion.div
@@ -120,7 +120,7 @@ export default function Hero() {
           >
             <motion.a
               href="#projects"
-              className="relative inline-flex px-8 py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25"
+              className="relative inline-flex px-6 py-3 md:px-8 md:py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25 text-sm md:text-base"
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
@@ -130,16 +130,16 @@ export default function Hero() {
                 animate={{ x: "150%" }}
                 transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 3 }}
               />
-              <span className="relative z-10">View Work</span>
+              <span className="relative z-10">Explore Work</span>
             </motion.a>
 
             <motion.a
               href="#contact"
-              className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2"
+              className="px-6 py-3 md:px-8 md:py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2 text-sm md:text-base"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              Let's Talk <Send size={18} />
+              Let's Connect <Send size={18} />
             </motion.a>
             <div className="flex gap-3">
               {[
