@@ -1,25 +1,73 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, useMotionValue, useMotionTemplate, useTransform, useSpring } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
-import Magnetic from "./Magnetic";
 
-const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i) => ({
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const letterVariants = {
+  hidden: { opacity: 0, y: 10, filter: "blur(8px)" },
+  visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.2, 0.65, 0.3, 0.9],
-    },
-  }),
+    filter: "blur(0px)",
+    transition: { duration: 0.1 }
+  },
 };
 
 export default function Hero() {
-  const words = ["Building", "digital", "experiences", "that", "matter."];
+  const [textKey, setTextKey] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTextKey((prev) => prev + 1);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { stiffness: 100, damping: 30, mass: 0.5 };
+  const rotateX = useSpring(useTransform(mouseY, [0, 1000], [15, -15]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [0, 2000], [-15, 15]), springConfig);
+
+  function handleMouseMove({ clientX, clientY }) {
+    mouseX.set(clientX);
+    mouseY.set(clientY);
+  }
+
+  const words = ["Muhammad", "Talha"];
 
   return (
-    <section id="home" className="min-h-[80vh] flex items-center justify-center relative pt-20 scroll-mt-32">
+    <section
+      id="home"
+      onMouseMove={handleMouseMove}
+      className="min-h-[80vh] flex items-center justify-center relative pt-20 scroll-mt-32 group"
+    >
+
+      {/* Spotlight Overlay */}
+      <motion.div
+        className="pointer-events-none fixed inset-0 transition duration-300 opacity-0 group-hover:opacity-100 -z-10"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              350px circle at ${mouseX}px ${mouseY}px,
+              rgba(255, 255, 255, 0.1),
+              transparent 80%
+            )
+          `,
+        }}
+      />
 
       <div className="container px-2 z-10 grid md:grid-cols-2 gap-12 items-center">
 
@@ -35,20 +83,27 @@ export default function Hero() {
             <span className="text-white font-medium text-sm">Available for work</span>
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold font-heading leading-[1.1] mb-8 text-white tracking-tight">
+          <motion.h1
+            key={textKey}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-5xl sm:text-6xl md:text-7xl font-bold font-heading leading-[1.1] mb-8 text-white tracking-tight"
+          >
             {words.map((word, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={textVariants}
-                initial="hidden"
-                animate="visible"
-                className={`inline-block mr-4 ${word === "experiences" ? "text-gradient" : ""}`}
-              >
-                {word}
-              </motion.span>
+              <span key={i} className={`inline-block mr-4 ${word === "Talha" ? "text-primary drop-shadow-md" : ""}`}>
+                {word.split("").map((char, charIndex) => (
+                  <motion.span
+                    key={charIndex}
+                    variants={letterVariants}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
             ))}
-          </h1>
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -56,7 +111,7 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-lg md:text-xl text-slate-400 mb-10 max-w-lg leading-relaxed"
           >
-            I craft accessible, pixel-perfect, and performant web experiences using modern technologies.
+            Building Intelligent Systems with AI, Machine Learning, Computer Vision and Full-Stack Engineering
           </motion.p>
 
           <motion.div
@@ -65,35 +120,49 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-wrap gap-4 items-center"
           >
-            <Magnetic>
-              <a
-                href="#projects"
-                className="inline-flex px-8 py-4 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/50"
-              >
-                View Work
-              </a>
-            </Magnetic>
-            <Magnetic>
-              <div className="flex gap-3">
-                {[Github, Linkedin, Mail].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="p-4 rounded-xl bg-surface border border-white/10 text-slate-400 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
-                  >
-                    <Icon size={20} />
-                  </a>
-                ))}
-              </div>
-            </Magnetic>
+            <motion.a
+              href="#projects"
+              className="relative inline-flex px-8 py-4 rounded-xl bg-primary text-white font-semibold overflow-hidden shadow-lg shadow-primary/25"
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.5)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div
+                className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                initial={{ x: "-150%" }}
+                animate={{ x: "150%" }}
+                transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 3 }}
+              />
+              <span className="relative z-10">View Work</span>
+            </motion.a>
+            <div className="flex gap-3">
+              {[
+                { Icon: Github, href: "https://github.com/TalhaMalik121" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/in/muhammad-talha-3b6a5a286/" },
+                { Icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com" }
+              ].map(({ Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="p-4 rounded-xl bg-surface border border-white/10 text-slate-400 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:scale-110 hover:-translate-y-1"
+                >
+                  <Icon size={20} />
+                </a>
+              ))}
+            </div>
           </motion.div>
         </div>
 
         {/* Profile Image */}
         <motion.div
+          style={{ rotateX, rotateY, transformPerspective: 1000 }}
           initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.8 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0, y: [0, -15, 0] }}
+          transition={{
+            duration: 0.8,
+            y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+          }}
           className="relative order-1 md:order-2 flex justify-center"
         >
           <div className="relative w-72 h-72 md:w-96 md:h-96">

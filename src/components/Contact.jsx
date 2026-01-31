@@ -78,7 +78,7 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold font-heading text-white">Email</h3>
-                <a href="mailto:talhagulsher7782@gmail.com" className="text-slate-400 hover:text-primary transition-colors">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors">
                   talhagulsher7782@gmail.com
                 </a>
               </div>

@@ -1,5 +1,28 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { motion, useMotionValue, useTransform, useSpring, useInView, animate } from "framer-motion";
 import { Code, Cpu, Globe } from "lucide-react";
+
+function Counter({ value }) {
+  const nodeRef = useRef(null);
+  const isInView = useInView(nodeRef, { once: true });
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const numericValue = parseInt(value) || 0;
+  const suffix = value.replace(/[0-9]/g, "");
+
+  useEffect(() => {
+    if (isInView) {
+      animate(count, numericValue, { duration: 1.5, ease: "easeOut" });
+    }
+  }, [isInView, numericValue, count]);
+
+  return (
+    <span ref={nodeRef} className="flex items-center">
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </span>
+  );
+}
 
 export default function About() {
   const stats = [
@@ -9,9 +32,9 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden scroll-mt-32">
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+    <section id="about" className="min-h-screen flex items-center py-24 relative overflow-hidden scroll-mt-32">
+      <div className="w-full px-6 md:px-20 relative z-10">
+        <div className="grid md:grid-cols-2 gap-24 items-center">
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -19,10 +42,31 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="relative group"
           >
-            {/* Abstract Background Shapes */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary to-secondary rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500" />
+            {/* White Breathing Pulse */}
+            {/* Deep Ambient Glow */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-primary/30 to-secondary/30 rounded-full blur-3xl opacity-60" />
 
-            <div className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-slate-900/50">
+            {/* Crisp Sonar Waves */}
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="absolute inset-0 rounded-3xl border border-white/30"
+                initial={{ opacity: 0, scale: 1 }}
+                animate={{ scale: 1.35, opacity: [0, 0.5, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                  delay: i * 1.3,
+                }}
+              />
+            ))}
+
+            <motion.div
+              animate={{ scale: [1, 1.02, 1] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden"
+            >
               <img
                 src="/Img4.jpg"
                 alt="Profile"
@@ -31,11 +75,10 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
 
               {/* Floating Name/Role on Image */}
-              <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
+              <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/10 backdrop-blur-md rounded-2xl transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
                 <p className="text-white font-bold text-sm">Muhammad Talha</p>
-                <p className="text-slate-300 text-xs text-xs">Full Stack & AI Engineer</p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -59,24 +102,37 @@ export default function About() {
 
             <div className="mt-10 grid grid-cols-3 gap-4">
               {stats.map((stat, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="glass-card p-4 rounded-2xl flex flex-col items-center text-center gap-2 group cursor-default"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -5 }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="bg-white/5 backdrop-blur-sm shadow-lg p-4 rounded-2xl flex flex-col items-center text-center gap-2 group cursor-default transition-colors duration-300 hover:bg-white/10"
                 >
-                  <div className={`p-3 rounded-full bg-white/5 ${stat.color} group-hover:scale-110 transition-transform duration-300 border border-white/5`}>
-                    <stat.icon size={20} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold font-heading text-white mb-0.5">{stat.value}</h3>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{stat.label}</p>
-                  </div>
-                </div>
+                  <motion.div
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                    className="flex flex-col items-center gap-2 w-full"
+                  >
+                    <div className={`p-3 rounded-full bg-white/5 ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
+                      <stat.icon size={20} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold font-heading text-white mb-0.5 flex justify-center">
+                        <Counter value={stat.value} />
+                      </h3>
+                      <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{stat.label}</p>
+                    </div>
+                  </motion.div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
 
         </div>
       </div>
-    </section>
+    </section >
   );
 }

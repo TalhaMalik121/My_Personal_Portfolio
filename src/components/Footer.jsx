@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -9,10 +9,16 @@ export default function Footer() {
 
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="flex justify-center gap-6 mb-8">
-          {[Github, Linkedin, Twitter].map((Icon, i) => (
+          {[
+            { Icon: Github, href: "https://github.com/TalhaMalik121" },
+            { Icon: Linkedin, href: "https://www.linkedin.com/in/muhammad-talha-3b6a5a286/" },
+            { Icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com" }
+          ].map(({ Icon, href }, i) => (
             <a
               key={i}
-              href="#"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-3 rounded-xl bg-white/5 text-slate-400 hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 border border-white/5 hover:border-primary/50 shadow-lg hover:shadow-primary/25 group"
             >
               <Icon size={20} className="group-hover:scale-110 transition-transform" />
