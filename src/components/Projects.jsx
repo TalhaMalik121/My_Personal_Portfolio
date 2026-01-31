@@ -118,6 +118,33 @@ const categories = ["All", "Web", "AI/ML", "Programming"];
 
 const projects = [
   {
+    name: "Sign Language Detection",
+    desc: "Real-time sign language recognition system using computer vision.",
+    tags: ["Python", "OpenCV", "TensorFlow"],
+    category: "AI/ML",
+    github: "https://github.com/TalhaMalik121",
+    demo: null,
+    image: "/projects/sign-language.png"
+  },
+  {
+    name: "Issue Tracker",
+    desc: "A comprehensive bug tracking and project management tool.",
+    tags: ["React", "Node.js", "MongoDB"],
+    category: "Web",
+    github: "https://github.com/TalhaMalik121",
+    demo: null,
+    image: "/projects/issuetracker.png"
+  },
+  {
+    name: "Empathy",
+    desc: "A platform focused on mental health awareness and community support.",
+    tags: ["React", "TailwindCSS", "Firebase"],
+    category: "Web",
+    github: "https://github.com/TalhaMalik121",
+    demo: null,
+    image: "/projects/emphaty.png"
+  },
+  {
     name: "TODO List App",
     desc: "A sleek task management tool built with React and modern CSS.",
     tags: ["React", "CSS3", "Local Storage"],
@@ -153,12 +180,20 @@ const projects = [
     image: "/projects/digitrecognizer.jpg"
   },
   {
-    name: "Hotel Management System",
-    desc: "A console-based application for managing hotel bookings and records.",
+    name: "Catering Management System",
+    desc: "A management system for catering services to handle orders and inventory.",
     tags: ["C++", "OOP", "File Handling"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000"
+    image: "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=1000"
+  },
+  {
+    name: "Pharmacy Management System",
+    desc: "A console-based application for managing pharmacy stock and sales.",
+    tags: ["C++", "OOP", "File Handling"],
+    category: "Programming",
+    github: "https://github.com/TalhaMalik121",
+    image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&q=80&w=1000"
   },
 ];
 
@@ -170,18 +205,18 @@ export default function Projects() {
   }, [filter]);
 
   return (
-    <section id="projects" className="py-20 relative">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-10 scroll-mt-32 relative">
+      <div className="container mx-auto px-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 text-white">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto mb-8">
+          <p className="text-sm md:text-base text-slate-400 max-w-2xl mx-auto mb-8">
             A selection of my recent work, ranging from web applications to machine learning models.
           </p>
 
@@ -192,10 +227,10 @@ export default function Projects() {
                 key={cat}
                 onClick={() => setFilter(cat)}
                 className={clsx(
-                  "px-4 py-2 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300",
+                  "px-4 py-2 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 border",
                   filter === cat
-                    ? "bg-primary text-white shadow-lg shadow-primary/25"
-                    : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                    ? "bg-primary text-white border-primary shadow-lg shadow-primary/25"
+                    : "bg-surface text-slate-400 border-white/10 hover:border-primary hover:text-primary hover:bg-white/5"
                 )}
               >
                 {cat}
@@ -206,72 +241,78 @@ export default function Projects() {
 
         <motion.div
           layout
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
         >
           <AnimatePresence>
-            {filteredProjects.map((p) => (
+            {filteredProjects.map((p, i) => (
               <motion.div
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
                 key={p.name}
-                className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm hover:border-primary/50 transition-colors"
+                className="group relative flex flex-col h-full bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
               >
                 {/* Image Container */}
-                <div className="relative h-48 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity" />
+                <div className="relative h-52 overflow-hidden bg-slate-900/50 border-b border-white/5 group-hover:border-primary/20 transition-colors">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
                   <img
                     src={p.image}
                     alt={p.name}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
                   />
+
                   <div className="absolute top-4 right-4 z-20">
-                    <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-medium text-white border border-white/10">
+                    <span className="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-xs font-bold text-white border border-white/10 shadow-lg group-hover:border-primary/30 transition-colors">
                       {p.category}
                     </span>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 relative z-20">
-                  <h3 className="text-xl font-bold font-heading mb-2 group-hover:text-primary transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                    {p.desc}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {p.tags.map((tag, idx) => (
-                      <span key={idx} className="text-xs px-2 py-1 rounded bg-white/10 text-gray-300">
-                        {tag}
-                      </span>
-                    ))}
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold font-heading mb-2 text-white group-hover:text-primary transition-colors duration-300">
+                      {p.name}
+                    </h3>
+                    <p className="text-slate-400 text-sm leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors">
+                      {p.desc}
+                    </p>
                   </div>
 
-                  {/* Links */}
-                  <div className="flex items-center gap-4">
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-medium text-white hover:text-primary transition-colors"
-                    >
-                      <Github size={18} /> Code
-                    </a>
-                    {p.demo && (
+                  <div className="mt-auto">
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {p.tags.map((tag, idx) => (
+                        <span key={idx} className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-white/5 rounded-md border border-white/5 group-hover:border-white/10 transition-colors">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-white/5">
                       <a
-                        href={p.demo}
+                        href={p.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors"
+                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 text-white text-xs font-bold hover:bg-white/10 hover:scale-105 hover:text-primary transition-all duration-300 group/btn"
                       >
-                        <ExternalLink size={18} /> Live Demo
+                        <Github size={16} className="group-hover/btn:rotate-12 transition-transform" /> Code
                       </a>
-                    )}
+                      {p.demo && (
+                        <a
+                          href={p.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold hover:shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 group/btn"
+                        >
+                          <ExternalLink size={16} className="group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-transform" /> Demo
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
