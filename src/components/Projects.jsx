@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, Send } from "lucide-react";
 import { useState, useMemo } from "react";
 import clsx from "clsx";
 
@@ -7,29 +7,32 @@ const categories = ["All", "Web", "AI/ML", "Programming"];
 
 const projects = [
   {
-    name: "Sign Language Detection",
+    name: "Sign Language Detection SAAS App",
     desc: "Real-time sign language recognition system using computer vision.",
     tags: ["Python", "OpenCV", "TensorFlow"],
     category: "AI/ML",
-    github: "https://github.com/TalhaMalik121",
+    github: "https://github.com/TalhaMalik121/Sign-Language-Detector-Web.git",
     demo: null,
     image: "/projects/sign-language.png"
   },
   {
-    name: "Issue Tracker",
+    name: "Campus Issue Tracker",
     desc: "A comprehensive bug tracking and project management tool.",
     tags: ["React", "Node.js", "MongoDB"],
     category: "Web",
-    github: "https://github.com/TalhaMalik121",
+    github: {
+      frontend: "https://github.com/TalhaMalik121/Campus-Issue-Tracker-Frontend/tree/main/campus-issue-tracker",
+      backend: "https://github.com/TalhaMalik121/Campus-Issue-Tracker-Backend.git"
+    },
     demo: null,
     image: "/projects/issuetracker.png"
   },
   {
-    name: "Empathy",
+    name: "Empathy-AI",
     desc: "A platform focused on mental health awareness and community support.",
     tags: ["React", "TailwindCSS", "Firebase"],
-    category: "Web",
-    github: "https://github.com/TalhaMalik121",
+    category: "AI/ML",
+    github: "https://github.com/TalhaMalik121/Empathy-AI.git",
     demo: null,
     image: "/projects/emphaty.png"
   },
@@ -42,24 +45,8 @@ const projects = [
     demo: "https://shah2004-creator.github.io/pythoneeer-TO-DO/",
     image: "/projects/todo.PNG"
   },
-  {
-    name: "Sentiment Analysis",
-    desc: "AI-powered emotion detection using NLTK and Streamlit.",
-    tags: ["Python", "NLTK", "Streamlit", "ML"],
-    category: "AI/ML",
-    github: "https://github.com/TalhaMalik121/Sentiment_Tagger",
-    demo: "https://sentimenttagger-bywpchotxpgyb8bsh4xrvc.streamlit.app/",
-    image: "/projects/sentimentTagger.PNG"
-  },
-  {
-    name: "Personal Portfolio",
-    desc: "My premium personal website to showcase my work and skills.",
-    tags: ["React", "Vite", "TailwindCSS", "Framer Motion"],
-    category: "Web",
-    github: "https://github.com/TalhaMalik121/Webain_Personal_Portfolio",
-    demo: "https://webain-personal-portfolio.vercel.app/",
-    image: "/projects/portfolio.png"
-  },
+
+
   {
     name: "Digit Recognizer",
     desc: "Handwritten digit recognition utilizing TensorFlow and CNNs.",
@@ -69,20 +56,28 @@ const projects = [
     image: "/projects/digitrecognizer.jpg"
   },
   {
-    name: "Catering Management System",
-    desc: "A management system for catering services to handle orders and inventory.",
-    tags: ["C++", "OOP", "File Handling"],
+    name: "Group Chat Application",
+    desc: "A multi-client chat application utilizing Java Sockets for real-time communication.",
+    tags: ["Java", "Sockets", "Multi-threading"],
     category: "Programming",
-    github: "https://github.com/TalhaMalik121",
-    image: "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=1000"
+    github: "https://github.com/TalhaMalik121/Group-Chat-Application",
+    image: "/projects/chatapp.jpg"
+  },
+  {
+    name: "Catering Management System",
+    desc: "A GUI-based Java desktop application for catering services.",
+    tags: ["Java", "Swing", "OOP", "File Handling"],
+    category: "Programming",
+    github: "https://github.com/TalhaMalik121/Catering-Management-System.git",
+    image: "/projects/catering.jpg"
   },
   {
     name: "Pharmacy Management System",
     desc: "A console-based application for managing pharmacy stock and sales.",
-    tags: ["C++", "OOP", "File Handling"],
+    tags: ["C++", "File Handling"],
     category: "Programming",
-    github: "https://github.com/TalhaMalik121",
-    image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&q=80&w=1000"
+    github: "https://github.com/TalhaMalik121/Pharmacy-Management-System",
+    image: "/projects/pharmacy.png"
   },
 ];
 
@@ -230,7 +225,10 @@ export default function Projects() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+
+
       </div>
-    </section>
+    </section >
   );
 }

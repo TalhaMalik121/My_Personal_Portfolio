@@ -22,6 +22,8 @@ export default function Contact() {
     formState: { errors, isValid, isSubmitting },
   } = useForm({ resolver: zodResolver(schema), mode: "onChange" });
 
+
+
   const onSubmit = async (data) => {
     try {
       const resp = await fetch("https://formspree.io/f/mrblnyew", {
@@ -151,6 +153,7 @@ export default function Contact() {
                 <>Send Message <Send size={18} /></>
               )}
             </button>
+
           </motion.form>
         </div>
       </div>
@@ -168,6 +171,6 @@ export default function Contact() {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </section >
   );
 }

@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Download, User, Code, Briefcase, FileText, Send, Award } from "lucide-react";
+import { Github, Linkedin, Mail, Download, User, Code, Briefcase, FileText, Send, Layers } from "lucide-react";
 
 export default function Sidebar({ activeSection }) {
     const navItems = [
         { id: "about", label: "About", icon: User },
         { id: "skills", label: "Skills", icon: Code },
+        { id: "services", label: "Services", icon: Layers },
         { id: "projects", label: "Projects", icon: Briefcase },
-        { id: "certifications", label: "Certifications", icon: Award },
+
         { id: "contact", label: "Contact", icon: Send },
     ];
 
@@ -45,8 +46,8 @@ export default function Sidebar({ activeSection }) {
                                 <a
                                     href={`#${item.id}`}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-medium ${activeSection === item.id
-                                            ? "bg-primary text-white shadow-lg shadow-primary/25 translate-x-1"
-                                            : "text-slate-600 hover:bg-slate-100 hover:text-primary"
+                                        ? "bg-primary text-white shadow-lg shadow-primary/25 translate-x-1"
+                                        : "text-slate-600 hover:bg-slate-100 hover:text-primary"
                                         }`}
                                 >
                                     <item.icon size={18} />

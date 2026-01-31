@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Code, Briefcase, Award, Home, Download, Menu, X } from "lucide-react";
+import { User, Code, Briefcase, Home, Download, Menu, X, Layers, Send } from "lucide-react";
 import Magnetic from "./Magnetic";
 
 export default function Navbar() {
@@ -12,8 +12,10 @@ export default function Navbar() {
     { id: "home", label: "Home", icon: Home },
     { id: "about", label: "About", icon: User },
     { id: "skills", label: "Skills", icon: Code },
+    { id: "services", label: "Services", icon: Layers },
     { id: "projects", label: "Projects", icon: Briefcase },
-    { id: "certifications", label: "Certifications", icon: Award },
+
+    { id: "contact", label: "Contact", icon: Send },
   ];
 
   useEffect(() => {

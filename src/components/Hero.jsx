@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Send } from "lucide-react";
 
 
 const containerVariants = {
@@ -131,6 +131,15 @@ export default function Hero() {
                 transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 3 }}
               />
               <span className="relative z-10">View Work</span>
+            </motion.a>
+
+            <motion.a
+              href="#contact"
+              className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-primary/50 transition-all duration-300 flex items-center gap-2"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Let's Talk <Send size={18} />
             </motion.a>
             <div className="flex gap-3">
               {[
