@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, useMotionValue, useMotionTemplate, useTransform, useSpring } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 
 
@@ -37,9 +37,7 @@ export default function Hero() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { stiffness: 100, damping: 30, mass: 0.5 };
-  const rotateX = useSpring(useTransform(mouseY, [0, 1000], [15, -15]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [0, 2000], [-15, 15]), springConfig);
+
 
   function handleMouseMove({ clientX, clientY }) {
     mouseX.set(clientX);
@@ -156,7 +154,6 @@ export default function Hero() {
 
         {/* Profile Image */}
         <motion.div
-          style={{ rotateX, rotateY, transformPerspective: 1000 }}
           initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
           animate={{ opacity: 1, scale: 1, rotate: 0, y: [0, -15, 0] }}
           transition={{
