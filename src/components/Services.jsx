@@ -51,7 +51,7 @@ export default function Services() {
     }, [isPaused]);
 
     return (
-        <section id="services" className="py-20 relative scroll-mt-32">
+        <section id="services" className="py-10 md:py-20 relative scroll-mt-32">
             {/* Background Elements */}
             <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />

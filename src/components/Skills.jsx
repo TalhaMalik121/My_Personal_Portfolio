@@ -50,7 +50,7 @@ export default function Skills() {
   }, [isPaused]);
 
   return (
-    <section id="skills" className="py-20 relative scroll-mt-32">
+    <section id="skills" className="py-10 md:py-20 relative scroll-mt-32">
       <div className="container mx-auto px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

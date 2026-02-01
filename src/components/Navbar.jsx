@@ -43,7 +43,7 @@ export default function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4"
+        className="hidden md:flex fixed top-6 left-0 right-0 z-50 justify-center px-4"
       >
         <div
           className={`relative flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500 border ${scrolled || mobileOpen

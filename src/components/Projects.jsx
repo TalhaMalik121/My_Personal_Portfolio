@@ -90,7 +90,7 @@ export default function Projects() {
   }, [filter]);
 
   return (
-    <section id="projects" className="py-10 scroll-mt-32 relative">
+    <section id="projects" className="py-5 md:py-10 scroll-mt-32 relative">
       <div className="container mx-auto px-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

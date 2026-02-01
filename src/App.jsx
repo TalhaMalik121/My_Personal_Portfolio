@@ -29,7 +29,7 @@ export default function App() {
         <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px] opacity-40" />
       </div>
 
-      <main className="max-w-7xl mx-auto px-6 md:px-12 pb-20 pt-24 space-y-32 relative z-10">
+      <main className="max-w-7xl mx-auto px-6 md:px-12 pb-20 pt-4 md:pt-24 space-y-16 md:space-y-32 relative z-10">
         <Hero />
         <About />
         <Skills />

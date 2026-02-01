@@ -50,7 +50,7 @@ export default function Hero() {
     <section
       id="home"
       onMouseMove={handleMouseMove}
-      className="min-h-[80vh] flex items-center justify-center relative pt-20 scroll-mt-32 group"
+      className="min-h-[80vh] flex items-start md:items-center justify-center relative pt-9 md:pt-20 scroll-mt-32 group"
     >
 
       {/* Spotlight Overlay */}

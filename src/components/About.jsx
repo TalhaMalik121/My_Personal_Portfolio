@@ -11,7 +11,7 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="min-h-screen flex items-center py-24 relative overflow-hidden scroll-mt-32">
+    <section id="about" className="min-h-screen flex items-center py-12 md:py-24 relative overflow-hidden scroll-mt-32">
       <div className="w-full px-6 md:px-20 relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -28,7 +28,7 @@ export default function About() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative group mt-12"
+            className="relative group mt-12 mb-2.5 md:mb-0"
           >
             {/* White Breathing Pulse */}
             {/* Deep Ambient Glow */}
