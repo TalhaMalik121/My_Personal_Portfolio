@@ -25,7 +25,7 @@ const projects = [
     image: "/projects/Mini-cppCompiler.png"
   },
   {
-    name: "Sign Language Detection SAAS App",
+    name: "Sign Language Detection Saas App",
     desc: "Real-time sign language translation using computer vision.",
     tags: ["Python", "OpenCV", "TensorFlow"],
     category: "AI/ML",
@@ -34,7 +34,7 @@ const projects = [
     image: "/projects/sign-language.png"
   },
   {
-    name: "Campus Issue Tracker",
+    name: "Campus Issue Tracker Web App",
     desc: "Platform for managing campus facility issues.",
     tags: ["React", "Node.js", "MongoDB"],
     category: "Web",
@@ -46,7 +46,7 @@ const projects = [
     image: "/projects/issuetracker.png"
   },
   {
-    name: "Empathy-AI",
+    name: "Empathy-AI Chatbot",
     desc: "AI-powered mental health support platform.",
     tags: ["React", "TailwindCSS", "Firebase"],
     category: "AI/ML",
