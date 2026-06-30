@@ -7,6 +7,24 @@ const categories = ["All", "Web", "AI/ML", "Programming"];
 
 const projects = [
   {
+    name: "Fitness RAG Chatbot",
+    desc: "Conversational fitness assistant powered by retrieval-augmented generation.",
+    tags: ["RAG", "AI", "Chatbot"],
+    category: "AI/ML",
+    github: "https://github.com/TalhaMalik121/Fitness-RAG-Chatbot.git",
+    demo: null,
+    image: "/projects/fitnesschatbot.png"
+  },
+  {
+    name: "Mini Cpp Compiler",
+    desc: "A lightweight compiler project for a subset of C++ language features.",
+    tags: ["C++", "Compiler", "Programming"],
+    category: "Programming",
+    github: "https://github.com/TalhaMalik121/Mini-Cpp-Compiler.git",
+    demo: null,
+    image: "/projects/Mini-cppCompiler.png"
+  },
+  {
     name: "Sign Language Detection SAAS App",
     desc: "Real-time sign language translation using computer vision.",
     tags: ["Python", "OpenCV", "TensorFlow"],
