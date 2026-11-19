@@ -8,7 +8,7 @@ import { EASE } from "../../lib/utils";
  */
 export default function SectionHeading({ index, label, lines, aside }) {
   return (
-    <div className="mb-16 md:mb-24">
+    <div className="mb-12 md:mb-24">
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
@@ -29,7 +29,7 @@ export default function SectionHeading({ index, label, lines, aside }) {
         <span className="label hidden sm:inline">Muhammad Talha — Portfolio</span>
       </motion.div>
 
-      <div className="mt-10 grid gap-8 md:mt-14 lg:grid-cols-12 lg:items-end">
+      <div className="mt-8 grid gap-6 md:mt-14 lg:grid-cols-12 lg:items-end">
         <MaskText
           lines={lines}
           className="text-[clamp(2.5rem,6.4vw,6rem)] font-medium leading-[0.98] tracking-tightest lg:col-span-8"

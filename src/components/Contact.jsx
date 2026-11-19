@@ -146,11 +146,11 @@ export default function Contact() {
               <p className="hidden max-w-[16rem] text-xs leading-relaxed text-faint sm:block">
                 Your message goes straight to my inbox. No spam, ever.
               </p>
-              <Magnetic strength={0.25}>
+              <Magnetic strength={0.25} className="block w-full sm:inline-block sm:w-auto">
                 <button
                   type="submit"
                   disabled={!isValid || isSubmitting}
-                  className="roll-group btn-primary group !px-8 !py-4 disabled:cursor-not-allowed disabled:opacity-30"
+                  className="roll-group btn-primary group w-full !px-8 !py-4 disabled:cursor-not-allowed disabled:opacity-30 sm:w-auto"
                 >
                   <span className="absolute inset-0 origin-bottom scale-y-0 bg-accent transition-transform duration-700 ease-expo group-enabled:group-hover:scale-y-100" />
                   {isSubmitting ? (

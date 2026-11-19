@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useAnimationFrame, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform, useVelocity } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
 import Counter from "./ui/Counter";
+import { useIsDesktop } from "../lib/useMediaQuery";
 import Magnetic from "./Magnetic";
 import DotGrid from "./ui/DotGrid";
 import RollText from "./ui/RollText";
@@ -155,6 +156,7 @@ export default function Hero({ start = true }) {
   const portraitY = useTransform(p, [0, 1], ["0%", "-12%"]);
 
   const state = start ? "visible" : "hidden";
+  const isDesktop = useIsDesktop();
 
   // Variable-font weight follows the cursor across the name
   const nameRef = useRef(null);
@@ -173,7 +175,7 @@ export default function Hero({ start = true }) {
   };
 
   return (
-    <section id="home" ref={ref} onMouseMove={onMove} className="relative flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-24 md:pt-24">
+    <section id="home" ref={ref} onMouseMove={onMove} className="relative flex flex-col overflow-hidden pb-12 pt-20 md:min-h-[100svh] md:pb-8 md:pt-24">
       <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: glow }} />
       <DotGrid className="absolute inset-0 h-full w-full" />
       {/* Soft light + vignette */}
@@ -182,7 +184,7 @@ export default function Hero({ start = true }) {
 
       <motion.div initial="hidden" animate={state} className="container-x relative z-10 flex flex-1 flex-col">
         {/* Meta row */}
-        <motion.div style={{ opacity: fadeOut }} className="grid grid-cols-2 gap-4 md:grid-cols-12 md:gap-6">
+        <motion.div style={isDesktop ? { opacity: fadeOut } : undefined} className="grid grid-cols-2 gap-4 md:grid-cols-12 md:gap-6">
           <motion.span variants={fade} custom={0} className="label whitespace-nowrap md:col-span-4">
             <span className="md:hidden">Portfolio ©{new Date().getFullYear()}</span>
             <span className="hidden md:inline">AI Engineer &amp; Software Engineer</span>
@@ -197,19 +199,19 @@ export default function Hero({ start = true }) {
         </motion.div>
 
         {/* Name + portrait */}
-        <div className="mt-auto grid items-end gap-8 pt-8 md:grid-cols-12 md:gap-6">
+        <div className="mt-auto grid items-end gap-7 pt-6 md:grid-cols-12 md:gap-6 md:pt-8">
           <motion.h1
             ref={nameRef}
-            style={{ y: nameY }}
+            style={isDesktop ? { y: nameY } : undefined}
             className="relative z-10 order-2 text-[clamp(3.6rem,11vw,11rem)] font-medium leading-[0.88] tracking-tightest md:order-1 md:col-span-8"
           >
             <span className="sr-only">Muhammad Talha — AI Engineer and Software Engineer</span>
-            <motion.span aria-hidden style={{ x: line1X }} className="block overflow-hidden pb-[0.06em]">
+            <motion.span aria-hidden style={isDesktop ? { x: line1X } : undefined} className="block overflow-hidden pb-[0.06em]">
               <motion.span variants={line} custom={0} className="text-silver -ml-[0.07em] block">
                 <WeightLetters text="Muhammad" />
               </motion.span>
             </motion.span>
-            <motion.span aria-hidden style={{ x: line2X }} className="flex items-end gap-6 overflow-hidden pb-[0.06em] md:gap-10">
+            <motion.span aria-hidden style={isDesktop ? { x: line2X } : undefined} className="flex items-end gap-6 overflow-hidden pb-[0.06em] md:gap-10">
               <motion.span variants={line} custom={1} className="text-silver -ml-[0.05em] block">
                 <WeightLetters text="Talha" />
               </motion.span>
@@ -226,8 +228,8 @@ export default function Hero({ start = true }) {
           </motion.h1>
 
           {/* Portrait — arch shape */}
-          <motion.div style={{ y: portraitY }} className="order-1 flex justify-center md:order-2 md:col-span-4 md:justify-end">
-            <div className="relative w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[19rem] lg:max-w-[21rem]" data-cursor="Hello">
+          <motion.div style={isDesktop ? { y: portraitY } : undefined} className="order-1 flex justify-center md:order-2 md:col-span-4 md:justify-end">
+            <div className="relative w-full max-w-[14rem] sm:max-w-[17rem] md:max-w-[19rem] lg:max-w-[21rem]" data-cursor="Hello">
               {/* offset outline echoing the arch */}
               <motion.div
                 aria-hidden
@@ -270,7 +272,7 @@ export default function Hero({ start = true }) {
         </div>
 
         {/* Bottom row */}
-        <motion.div style={{ opacity: fadeOut }} className="mt-10 grid gap-10 border-t border-line pt-7 md:mt-12 md:grid-cols-12 md:gap-6">
+        <motion.div style={isDesktop ? { opacity: fadeOut } : undefined} className="mt-10 grid gap-10 border-t border-line pt-7 md:mt-12 md:grid-cols-12 md:gap-6">
           <motion.div variants={fade} custom={0} className="md:col-span-4">
             <p className="label mb-3">Currently building</p>
             <div className="relative h-8 overflow-hidden text-xl font-medium tracking-tight text-ink md:text-2xl">
@@ -306,16 +308,16 @@ export default function Hero({ start = true }) {
               I build intelligent software — machine learning, deep learning, computer vision, RAG chatbots and agentic AI — and ship it
               through modern web and app development.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Magnetic strength={0.2}>
-                <a href="/resume.pdf" download="Muhammad_Talha_Resume.pdf" className="roll-group btn-primary group !px-5 sm:!px-6">
+            <div className="mt-7 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
+              <Magnetic strength={0.2} className="block sm:inline-block">
+                <a href="/resume.pdf" download="Muhammad_Talha_Resume.pdf" className="roll-group btn-primary group w-full !px-4 sm:w-auto sm:!px-6">
                   <span className="absolute inset-0 origin-bottom scale-y-0 bg-accent transition-transform duration-700 ease-expo group-hover:scale-y-100" />
-                  <span className="relative"><RollText>Download resume</RollText></span>
+                  <span className="relative"><span className="sm:hidden">Resume</span><span className="hidden sm:inline"><RollText>Download resume</RollText></span></span>
                   <Download size={16} className="relative" />
                 </a>
               </Magnetic>
-              <Magnetic strength={0.2}>
-                <a href="#contact" className="roll-group btn-ghost group !px-5 sm:!px-6">
+              <Magnetic strength={0.2} className="block sm:inline-block">
+                <a href="#contact" className="roll-group btn-ghost group w-full !px-4 sm:w-auto sm:!px-6">
                   <span className="relative"><RollText>Get in touch</RollText></span>
                   <ArrowUpRight size={16} className="relative transition-transform duration-700 ease-expo group-hover:rotate-45" />
                 </a>

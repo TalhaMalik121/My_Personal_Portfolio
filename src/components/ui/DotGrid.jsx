@@ -11,7 +11,8 @@ export default function DotGrid({ className, gap = 28, radius = 170 }) {
   useEffect(() => {
     const canvas = ref.current;
     const ctx = canvas.getContext("2d");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches || !window.matchMedia("(pointer: fine)").matches;
     let dots = [];
     let w = 0;
     let h = 0;
@@ -90,13 +91,17 @@ export default function DotGrid({ className, gap = 28, radius = 170 }) {
     if (reduced) frame();
     else loop();
 
-    window.addEventListener("resize", build);
+    const onResize = () => {
+      build();
+      if (reduced) frame();
+    };
+    window.addEventListener("resize", onResize);
     window.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseleave", onLeave);
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
-      window.removeEventListener("resize", build);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
     };

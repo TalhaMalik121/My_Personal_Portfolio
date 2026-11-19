@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { BrainCircuit, Code2 } from "lucide-react";
 import SectionHeading from "./ui/SectionHeading";
+import { useIsDesktop } from "../lib/useMediaQuery";
 
 const services = [
   {
@@ -38,18 +39,19 @@ function ServiceCard({ service, index, total, progress }) {
   const dim = useTransform(progress, range, [0, (total - 1 - index) * 0.25]);
   const Icon = service.icon;
   const last = index === total - 1;
+  const isDesktop = useIsDesktop();
 
   return (
-    <div className="sticky" style={{ top: `calc(6.5rem + ${index * 22}px)` }}>
+    <div className="md:sticky" style={isDesktop ? { top: `calc(6.5rem + ${index * 22}px)` } : undefined}>
       <motion.article
-        style={{ scale }}
-        className={`relative origin-top overflow-hidden rounded-3xl border border-line bg-surface ${last ? "" : "mb-[14vh]"}`}
+        style={isDesktop ? { scale } : undefined}
+        className={`relative origin-top overflow-hidden rounded-3xl border border-line bg-surface ${last ? "" : "mb-5 md:mb-[14vh]"}`}
       >
         {/* top sheen */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_100%_0%,rgba(255,255,255,0.05),transparent_70%)]" />
         {/* darken as it gets covered */}
-        <motion.div aria-hidden style={{ opacity: dim }} className="pointer-events-none absolute inset-0 z-20 bg-black" />
+        <motion.div aria-hidden style={isDesktop ? { opacity: dim } : { opacity: 0 }} className="pointer-events-none absolute inset-0 z-20 bg-black" />
 
         {/* Counter pinned to the card's top-right, aligned with the icon row */}
         <span className="label absolute right-7 top-[2.6rem] z-10 md:right-12 md:top-[4.1rem]">
@@ -61,7 +63,7 @@ function ServiceCard({ service, index, total, progress }) {
             <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/15">
               <Icon size={20} strokeWidth={1.5} className="text-ink" />
             </span>
-            <h3 className="mt-14 text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[1] tracking-tightest text-ink md:mt-auto md:pt-20">
+            <h3 className="mt-10 text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[1] tracking-tightest text-ink md:mt-auto md:pt-20">
               {service.title}
             </h3>
             <p className="mt-5 max-w-md text-base leading-relaxed text-muted">{service.description}</p>
@@ -69,14 +71,14 @@ function ServiceCard({ service, index, total, progress }) {
 
           <ul className="flex flex-col justify-end md:col-span-5 md:col-start-8 md:pt-14">
             {service.features.map((f, i) => (
-              <li key={f.name} className="group flex items-baseline justify-between gap-6 border-t border-line py-5 last:border-b">
+              <li key={f.name} className="group flex flex-col gap-1 border-t border-line py-4 last:border-b sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:py-5">
                 <span className="flex items-baseline gap-4">
                   <span className="font-mono text-[11px] text-faint">0{i + 1}</span>
                   <span className="text-lg font-medium tracking-tight text-ink transition-transform duration-700 ease-expo group-hover:translate-x-1.5">
                     {f.name}
                   </span>
                 </span>
-                <span className="text-right text-sm text-muted">{f.details}</span>
+                <span className="pl-8 text-sm text-muted sm:pl-0 sm:text-right">{f.details}</span>
               </li>
             ))}
           </ul>

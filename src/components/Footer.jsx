@@ -32,7 +32,7 @@ export default function Footer() {
   const toTop = () => (lenis ? lenis.scrollTo(0, { duration: 2 }) : window.scrollTo({ top: 0, behavior: "smooth" }));
 
   return (
-    <footer ref={ref} className="relative z-10 overflow-hidden border-t border-line pb-28 pt-24 md:pb-8 md:pt-32">
+    <footer ref={ref} className="relative z-10 overflow-hidden border-t border-line pb-10 pt-20 md:pb-8 md:pt-32">
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-12 md:flex-row md:items-center">
           <motion.h2
@@ -50,7 +50,7 @@ export default function Footer() {
           <Magnetic strength={0.35}>
             <a
               href="#contact"
-              className="group relative flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-ink text-background md:h-44 md:w-44"
+              className="group relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-ink text-background active:scale-95 md:h-44 md:w-44"
             >
               <span className="absolute inset-0 origin-bottom scale-y-0 rounded-full bg-accent transition-transform duration-700 ease-expo group-hover:scale-y-100" />
               <span className="relative flex flex-col items-center gap-2 text-sm font-medium">
