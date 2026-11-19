@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://my-personal-portfolio-azure-zeta.vercel.app/</loc>
+    <loc>https://muhammadtalha.live/</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://my-personal-portfolio-azure-zeta.vercel.app/Img1.jpg</image:loc>
+      <image:loc>https://muhammadtalha.live/Img1.jpg</image:loc>
       <image:title>Muhammad Talha — AI Engineer &amp; Software Engineer</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://my-personal-portfolio-azure-zeta.vercel.app/resume.pdf</loc>
+    <loc>https://muhammadtalha.live/resume.pdf</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
