@@ -310,7 +310,7 @@ export default function Hero({ start = true }) {
             </p>
             <div className="mt-7 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
               <Magnetic strength={0.2} className="block sm:inline-block">
-                <a href="/resume.pdf" download="Muhammad_Talha_Resume.pdf" className="roll-group btn-primary group w-full !px-4 sm:w-auto sm:!px-6">
+                <a href="/Muhammad_Talha_Resume.pdf" download="Muhammad_Talha_Resume.pdf" className="roll-group btn-primary group w-full !px-4 sm:w-auto sm:!px-6">
                   <span className="absolute inset-0 origin-bottom scale-y-0 bg-accent transition-transform duration-700 ease-expo group-hover:scale-y-100" />
                   <span className="relative"><span className="sm:hidden">Resume</span><span className="hidden sm:inline"><RollText>Download resume</RollText></span></span>
                   <Download size={16} className="relative" />

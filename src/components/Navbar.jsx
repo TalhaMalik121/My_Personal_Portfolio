@@ -138,7 +138,7 @@ function MobileNav({ active, scrolled }) {
               transition={{ duration: 0.8, ease: EASE, delay: 0.6 }}
               className="relative mt-8 space-y-6"
             >
-              <a href="/resume.pdf" download="Muhammad_Talha_Resume.pdf" className="btn-primary w-full">
+              <a href="/Muhammad_Talha_Resume.pdf" download="Muhammad_Talha_Resume.pdf" className="btn-primary w-full">
                 Download resume <Download size={16} />
               </a>
               <div className="flex items-center justify-between">
