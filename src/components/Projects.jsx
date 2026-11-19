@@ -1,7 +1,9 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, Send } from "lucide-react";
-import { useState, useMemo } from "react";
-import clsx from "clsx";
+import { useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView, useMotionValue, useSpring, useTransform, useVelocity } from "framer-motion";
+import { ArrowUpRight, LayoutGrid, Rows3 } from "lucide-react";
+import SectionHeading from "./ui/SectionHeading";
+import RollText from "./ui/RollText";
+import { cn, EASE } from "../lib/utils";
 
 const categories = ["All", "Web", "AI/ML", "Programming"];
 
@@ -13,7 +15,7 @@ const projects = [
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Fitness-RAG-Chatbot.git",
     demo: null,
-    image: "/projects/fitnesschatbot.png"
+    image: "/projects/fitnesschatbot.png",
   },
   {
     name: "Mini Cpp Compiler",
@@ -22,7 +24,7 @@ const projects = [
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Mini-Cpp-Compiler.git",
     demo: null,
-    image: "/projects/Mini-cppCompiler.png"
+    image: "/projects/Mini-cppCompiler.png",
   },
   {
     name: "Sign Language Detection Saas App",
@@ -31,7 +33,7 @@ const projects = [
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Sign-Language-Detector-Web.git",
     demo: null,
-    image: "/projects/sign-language.png"
+    image: "/projects/sign-language.png",
   },
   {
     name: "Campus Issue Tracker Web App",
@@ -40,10 +42,10 @@ const projects = [
     category: "Web",
     github: {
       frontend: "https://github.com/TalhaMalik121/Campus-Issue-Tracker-Frontend/tree/main/campus-issue-tracker",
-      backend: "https://github.com/TalhaMalik121/Campus-Issue-Tracker-Backend.git"
+      backend: "https://github.com/TalhaMalik121/Campus-Issue-Tracker-Backend.git",
     },
     demo: null,
-    image: "/projects/issuetracker.png"
+    image: "/projects/issuetracker.png",
   },
   {
     name: "Empathy-AI Chatbot",
@@ -52,7 +54,7 @@ const projects = [
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Empathy-AI.git",
     demo: null,
-    image: "/projects/emphaty.png"
+    image: "/projects/emphaty.png",
   },
   {
     name: "TODO List App",
@@ -61,17 +63,15 @@ const projects = [
     category: "Web",
     github: "https://github.com/SHAH2004-creator/pythoneeer-TO-DO",
     demo: "https://shah2004-creator.github.io/pythoneeer-TO-DO/",
-    image: "/projects/todo.PNG"
+    image: "/projects/todo.PNG",
   },
-
-
   {
     name: "Digit Recognizer",
     desc: "Handwritten digit classification using CNNs.",
     tags: ["Python", "TensorFlow", "OpenCV"],
     category: "AI/ML",
     github: "https://github.com/TalhaMalik121/Digit_Recognizer",
-    image: "/projects/digitrecognizer.jpg"
+    image: "/projects/digitrecognizer.jpg",
   },
   {
     name: "Group Chat Application",
@@ -79,7 +79,7 @@ const projects = [
     tags: ["Java", "Sockets", "Multi-threading"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Group-Chat-Application",
-    image: "/projects/chatapp.jpg"
+    image: "/projects/chatapp.jpg",
   },
   {
     name: "Catering Management System",
@@ -87,7 +87,7 @@ const projects = [
     tags: ["Java", "Swing", "OOP", "File Handling"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Catering-Management-System.git",
-    image: "/projects/catering.jpg"
+    image: "/projects/catering.jpg",
   },
   {
     name: "Pharmacy Management System",
@@ -95,174 +95,310 @@ const projects = [
     tags: ["C++", "File Handling"],
     category: "Programming",
     github: "https://github.com/TalhaMalik121/Pharmacy-Management-System",
-    image: "/projects/pharmacy.png"
+    image: "/projects/pharmacy.png",
   },
+];
+
+const CATEGORY_COLOR = {
+  "AI/ML": "#c4b5fd",
+  Web: "#7dd3fc",
+  Programming: "#fcd34d",
+};
+
+const linksFor = (p) => {
+  const out = [];
+  if (typeof p.github === "string") out.push({ label: "Code", href: p.github });
+  else out.push({ label: "Frontend", href: p.github.frontend }, { label: "Backend", href: p.github.backend });
+  if (p.demo) out.push({ label: "Live", href: p.demo });
+  return out;
+};
+const mainLink = (p) => p.demo || (typeof p.github === "string" ? p.github : p.github.frontend);
+
+function CategoryTag({ category, className = "" }) {
+  return (
+    <span className={cn("label inline-flex items-center gap-2 !text-ink", className)}>
+      <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_COLOR[category], boxShadow: `0 0 10px ${CATEGORY_COLOR[category]}` }} />
+      {category}
+    </span>
+  );
+}
+
+function LinkPill({ href, label }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="roll-group group/pill relative z-20 inline-flex items-center gap-1 overflow-hidden rounded-full border border-white/15 px-3.5 py-1.5 text-xs text-ink transition-colors duration-500 ease-expo hover:border-ink hover:text-background"
+    >
+      <span className="absolute inset-0 origin-bottom scale-y-0 bg-ink transition-transform duration-500 ease-expo group-hover/pill:scale-y-100" />
+      <span className="relative"><RollText>{label}</RollText></span>
+      <ArrowUpRight size={12} className="relative" />
+    </a>
+  );
+}
+
+/* ---------------- List view: index rows + floating preview ---------------- */
+function ProjectIndex({ items }) {
+  const [active, setActive] = useState(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const x = useSpring(mx, { stiffness: 160, damping: 22, mass: 0.6 });
+  const y = useSpring(my, { stiffness: 160, damping: 22, mass: 0.6 });
+  const vx = useVelocity(x);
+  const rotate = useTransform(vx, [-1800, 0, 1800], [-8, 0, 8], { clamp: true });
+
+  const slide = useSpring(0, { stiffness: 140, damping: 24 });
+  const slideY = useTransform(slide, (v) => `${-v * 100}%`);
+
+  const enter = (i) => {
+    setActive(i);
+    slide.set(i);
+  };
+  const current = active !== null ? items[active] : null;
+
+  return (
+    <div
+      className="relative"
+      onMouseMove={(e) => {
+        mx.set(e.clientX);
+        my.set(e.clientY);
+      }}
+      onMouseLeave={() => setActive(null)}
+    >
+      <ul className="group/list border-b border-line">
+        {items.map((p, i) => (
+          <motion.li
+            key={p.name}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1, ease: EASE, delay: (i % 4) * 0.05 }}
+            onMouseEnter={() => enter(i)}
+            className="group/row relative border-t border-line first:border-t-0 transition-opacity duration-500 ease-expo group-hover/list:opacity-30 hover:!opacity-100"
+          >
+            <a href={mainLink(p)} target="_blank" rel="noopener noreferrer" aria-label={p.name} data-cursor="View" className="absolute inset-0 z-10" />
+            <div className="pointer-events-none absolute inset-0 origin-bottom scale-y-0 bg-gradient-to-r from-white/[0.035] to-transparent transition-transform duration-700 ease-expo group-hover/row:scale-y-100" />
+            {/* category-coloured accent line */}
+            <span
+              className="pointer-events-none absolute left-0 top-0 h-full w-px origin-top scale-y-0 transition-transform duration-700 ease-expo group-hover/row:scale-y-100"
+              style={{ background: CATEGORY_COLOR[p.category] }}
+            />
+
+            <div className="relative grid grid-cols-12 items-center gap-6 py-8">
+              <span className="label col-span-1 pl-4">{String(i + 1).padStart(2, "0")}</span>
+              <div className="col-span-5 transition-transform duration-700 ease-expo group-hover/row:translate-x-3">
+                <h3 className="text-[clamp(1.5rem,2.35vw,2.35rem)] font-medium leading-[1.05] tracking-tightest text-ink">{p.name}</h3>
+                <p className="mt-2 max-w-lg text-sm text-muted">{p.desc}</p>
+              </div>
+              <div className="col-span-3">
+                <CategoryTag category={p.category} />
+                <p className="mt-2 font-mono text-[11px] text-faint">{p.tags.join(" · ")}</p>
+              </div>
+              <div className="col-span-3 flex flex-wrap justify-end gap-2">
+                {linksFor(p).map((l) => (
+                  <LinkPill key={l.label} {...l} />
+                ))}
+              </div>
+            </div>
+          </motion.li>
+        ))}
+      </ul>
+
+      {/* Floating preview */}
+      <motion.div
+        aria-hidden
+        style={{ x, y, rotate, translateX: "-50%", translateY: "-50%" }}
+        animate={{ scale: current ? 1 : 0.4, opacity: current ? 1 : 0 }}
+        transition={{ duration: 0.6, ease: EASE }}
+        className="pointer-events-none fixed left-0 top-0 z-40 w-[400px] overflow-hidden rounded-2xl border border-white/10 bg-elevated shadow-[0_40px_90px_-20px_rgba(0,0,0,0.95)]"
+      >
+        <div className="relative h-[240px] overflow-hidden">
+          <motion.div style={{ y: slideY }} className="h-full w-full">
+            {items.map((p) => (
+              <div key={p.name} className="flex h-full w-full items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_70%)] p-3">
+                <img src={p.image} alt="" className="max-h-full max-w-full rounded-md object-contain" />
+              </div>
+            ))}
+          </motion.div>
+                  </div>
+        <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-3">
+          <span className="truncate text-sm text-ink">{current?.name}</span>
+          {current && <CategoryTag category={current.category} className="shrink-0 !text-[10px]" />}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ---------------- Grid view: image cards ---------------- */
+function ProjectCard({ p, index }) {
+  const ref = useRef(null);
+  // Observe the unclipped wrapper; a fully clipped element never reports as visible.
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <motion.article
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, ease: EASE, delay: (index % 2) * 0.08 }}
+      className="group"
+    >
+      <a
+        href={mainLink(p)}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="View"
+        className="relative block overflow-hidden rounded-2xl border border-line bg-surface p-2"
+      >
+        <motion.div
+          initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+          animate={{ clipPath: inView ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
+          transition={{ duration: 1.4, ease: EASE }}
+          className="relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-xl bg-[#0d0d0f] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_70%)] p-4"
+        >
+          <img
+            src={p.image}
+            alt={p.name}
+            loading="lazy"
+            className="max-h-full max-w-full rounded-md object-contain shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8)] transition-transform duration-[1.2s] ease-expo group-hover:scale-[1.04]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 transition-opacity duration-700 group-hover:opacity-100" />
+          <span className="absolute bottom-4 left-4 inline-flex translate-y-3 items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs font-medium text-background opacity-0 transition-all duration-700 ease-expo group-hover:translate-y-0 group-hover:opacity-100">
+            View project <ArrowUpRight size={12} />
+          </span>
+          <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/50 px-2.5 py-1 font-mono text-[10px] text-ink backdrop-blur-md">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </motion.div>
+      </a>
+
+      <div className="mt-5 flex items-center justify-between gap-4">
+        <CategoryTag category={p.category} />
+        <p className="truncate font-mono text-[11px] text-faint">{p.tags.join(" · ")}</p>
+      </div>
+      <h3 className="mt-3 text-2xl font-medium tracking-tight text-ink md:text-[1.75rem]">{p.name}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{p.desc}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {linksFor(p).map((l) => (
+          <LinkPill key={l.label} {...l} />
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function ProjectGrid({ items }) {
+  const [showAll, setShowAll] = useState(false);
+  return (
+    <>
+      <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
+        {items.map((p, i) => (
+          <div key={p.name} className={cn(!showAll && i >= 4 && "hidden md:block")}>
+            <ProjectCard p={p} index={i} />
+          </div>
+        ))}
+      </div>
+      {!showAll && items.length > 4 && (
+        <button onClick={() => setShowAll(true)} className="btn-ghost mt-14 w-full md:hidden">
+          View all {items.length} projects
+        </button>
+      )}
+    </>
+  );
+}
+
+const VIEWS = [
+  { id: "list", label: "List", icon: Rows3 },
+  { id: "grid", label: "Grid", icon: LayoutGrid },
 ];
 
 export default function Projects() {
   const [filter, setFilter] = useState("All");
-  const [showAll, setShowAll] = useState(false);
-
-  const filteredProjects = useMemo(() => {
-    return filter === "All" ? projects : projects.filter(p => p.category === filter);
-  }, [filter]);
+  const [view, setView] = useState("list");
+  const filtered = useMemo(() => (filter === "All" ? projects : projects.filter((p) => p.category === filter)), [filter]);
 
   return (
-    <section id="projects" className="py-5 md:py-10 scroll-mt-32 relative">
-      <div className="container mx-auto px-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 text-white">
-            Featured <span className="text-gradient">Projects</span>
-          </h2>
-          <p className="text-sm md:text-base text-slate-400 max-w-2xl mx-auto mb-8">
-            A selection of my recent work, ranging from web applications to machine learning models.
-          </p>
+    <section id="projects" className="relative scroll-mt-20 py-20 md:py-28">
+      <div className="container-x">
+        <SectionHeading
+          index="05"
+          label="Selected work"
+          lines={["Featured", "*projects.*"]}
+          aside="A selection of my recent work, ranging from web applications to machine learning models."
+        />
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {categories.map((cat) => (
+        {/* Toolbar */}
+        <div className="flex items-end justify-between gap-6 border-b border-line">
+          <div className="-mb-px flex gap-6 overflow-x-auto md:gap-10">
+            {categories.map((cat) => {
+              const count = cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={cn(
+                    "roll-group relative flex shrink-0 items-center gap-2 pb-4 text-sm transition-colors duration-500 md:text-base",
+                    filter === cat ? "text-ink" : "text-muted hover:text-ink"
+                  )}
+                >
+                  {cat !== "All" && <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_COLOR[cat] }} />}
+                  <RollText>{cat}</RollText>
+                  <sup className="font-mono text-[10px] text-faint">{String(count).padStart(2, "0")}</sup>
+                  {filter === cat && (
+                    <motion.span layoutId="filter-line" className="absolute inset-x-0 bottom-0 h-px bg-ink" transition={{ type: "spring", stiffness: 380, damping: 34 }} />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mb-3 hidden shrink-0 items-center gap-1 rounded-full border border-line p-1 md:flex">
+            {VIEWS.map((v) => (
               <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={clsx(
-                  "px-4 py-2 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 border",
-                  filter === cat
-                    ? "bg-primary text-white border-primary shadow-lg shadow-primary/25"
-                    : "bg-surface text-slate-400 border-white/10 hover:border-primary hover:text-primary hover:bg-white/5"
+                key={v.id}
+                onClick={() => setView(v.id)}
+                aria-label={`${v.label} view`}
+                className={cn(
+                  "relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs transition-colors duration-500",
+                  view === v.id ? "text-background" : "text-muted hover:text-ink"
                 )}
               >
-                {cat}
+                {view === v.id && (
+                  <motion.span layoutId="view-pill" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+                )}
+                <v.icon size={14} className="relative" />
+                <span className="relative">{v.label}</span>
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          layout
-          className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((p, i) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-                key={p.name}
-                className={clsx(
-                  "group relative flex-col h-full bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2",
-                  !showAll && i >= 3 ? "hidden md:flex" : "flex"
-                )}
-              >
-                {/* Image Container */}
-                <div className="relative h-52 overflow-hidden bg-slate-900/50 border-b border-white/5 group-hover:border-primary/20 transition-colors">
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
-
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
-                  />
-
-                  <div className="absolute top-4 right-4 z-20">
-                    <span className="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-xs font-bold text-white border border-white/10 shadow-lg group-hover:border-primary/30 transition-colors">
-                      {p.category}
-                    </span>
-                  </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${view}-${filter}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className={view === "grid" ? "pt-12" : "pt-12 md:pt-0"}
+          >
+            {view === "list" ? (
+              <>
+                <div className="hidden md:block">
+                  <ProjectIndex items={filtered} />
                 </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold font-heading mb-2 text-white group-hover:text-primary transition-colors duration-300">
-                      {p.name}
-                    </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors">
-                      {p.desc}
-                    </p>
-                  </div>
-
-                  <div className="mt-auto">
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {p.tags.map((tag, idx) => (
-                        <span key={idx} className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-white/5 rounded-md border border-white/5 group-hover:border-white/10 transition-colors">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/5">
-                      {typeof p.github === "string" ? (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 text-white text-xs font-bold hover:bg-white/10 hover:scale-105 hover:text-primary transition-all duration-300 group/btn"
-                        >
-                          <Github size={16} className="group-hover/btn:rotate-12 transition-transform" /> Code
-                        </a>
-                      ) : (
-                        <>
-                          <a
-                            href={p.github.frontend}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 text-white text-xs font-bold hover:bg-white/10 hover:scale-105 hover:text-primary transition-all duration-300 group/btn"
-                          >
-                            <Github size={16} className="group-hover/btn:rotate-12 transition-transform" /> Frontend
-                          </a>
-                          <a
-                            href={p.github.backend}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 text-white text-xs font-bold hover:bg-white/10 hover:scale-105 hover:text-primary transition-all duration-300 group/btn"
-                          >
-                            <Github size={16} className="group-hover/btn:rotate-12 transition-transform" /> Backend
-                          </a>
-                        </>
-                      )}
-
-                      {p.demo && (
-                        <a
-                          href={p.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold hover:shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 group/btn"
-                        >
-                          <ExternalLink size={16} className="group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-transform" /> Demo
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                <div className="md:hidden">
+                  <ProjectGrid items={filtered} />
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Mobile View More Button */}
-        {!showAll && filteredProjects.length > 3 && (
-          <div className="mt-8 text-center md:hidden">
-            <button
-              onClick={() => setShowAll(true)}
-              className="px-6 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium hover:bg-white/10 hover:text-white transition-all"
-            >
-              View More Projects
-            </button>
-          </div>
-        )}
-
-
-
+              </>
+            ) : (
+              <ProjectGrid items={filtered} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
-    </section >
+    </section>
   );
 }

@@ -1,42 +1,46 @@
-
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        background: "#020617", // Slate 950 (Deep dark background)
-        surface: "#0f172a", // Slate 900 (Card background)
-        primary: "#6366f1", // Indigo 500 (Vibrant accent)
-        secondary: "#8b5cf6", // Violet 500
-        accent: "#38bdf8", // Sky 400
-        muted: "#94a3b8", // Slate 400
-        dark: "#f1f5f9", // Slate 100 (Text Light)
+        background: "#09090b",
+        surface: "#111113",
+        elevated: "#17171a",
+        line: "rgba(255,255,255,0.08)",
+        ink: "#ededef",
+        muted: "#8b8b93",
+        faint: "#55555c",
+        accent: "#9db4ff",
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        heading: ['Outfit', 'sans-serif'],
+        sans: ['"Geist Variable"', "Inter", "system-ui", "sans-serif"],
+        heading: ['"Geist Variable"', "Inter", "system-ui", "sans-serif"],
+        mono: ['"Geist Mono Variable"', "ui-monospace", "SFMono-Regular", "monospace"],
+        serif: ['"Instrument Serif"', "Georgia", "serif"],
+      },
+      letterSpacing: {
+        tightest: "-0.055em",
+      },
+      transitionTimingFunction: {
+        expo: "cubic-bezier(0.19, 1, 0.22, 1)",
+        quart: "cubic-bezier(0.76, 0, 0.24, 1)",
       },
       animation: {
-        'spin-slow': 'spin 8s linear infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'shimmer': 'shimmer 2s linear infinite',
+        "scroll-dot": "scroll-dot 2.2s cubic-bezier(0.76,0,0.24,1) infinite",
+        "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' },
+        "scroll-dot": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(200%)" },
         },
-        shimmer: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        }
-      }
+        "pulse-soft": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.35", transform: "scale(0.8)" },
+        },
+      },
     },
   },
   plugins: [],
-}
+};

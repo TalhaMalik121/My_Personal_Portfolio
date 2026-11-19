@@ -1,34 +1,32 @@
-import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
-export default function Magnetic({ children }) {
-    const ref = useRef(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+/** Pulls its child gently toward the cursor while hovered. */
+export default function Magnetic({ children, strength = 0.3, className }) {
+  const ref = useRef(null);
+  const x = useSpring(useMotionValue(0), { stiffness: 180, damping: 14, mass: 0.2 });
+  const y = useSpring(useMotionValue(0), { stiffness: 180, damping: 14, mass: 0.2 });
 
-    const handleMouse = (e) => {
-        const { clientX, clientY } = e;
-        const { height, width, left, top } = ref.current.getBoundingClientRect();
-        const middleX = clientX - (left + width / 2);
-        const middleY = clientY - (top + height / 2);
+  function handleMove(e) {
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    x.set((e.clientX - (left + width / 2)) * strength);
+    y.set((e.clientY - (top + height / 2)) * strength);
+  }
 
-        setPosition({ x: middleX * 0.2, y: middleY * 0.2 });
-    };
+  function reset() {
+    x.set(0);
+    y.set(0);
+  }
 
-    const reset = () => {
-        setPosition({ x: 0, y: 0 });
-    };
-
-    const { x, y } = position;
-
-    return (
-        <motion.div
-            ref={ref}
-            onMouseMove={handleMouse}
-            onMouseLeave={reset}
-            animate={{ x, y }}
-            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-        >
-            {children}
-        </motion.div>
-    );
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      style={{ x, y }}
+      className={className ?? "inline-block"}
+    >
+      {children}
+    </motion.div>
+  );
 }

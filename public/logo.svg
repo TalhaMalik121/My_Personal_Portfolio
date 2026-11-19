@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Muhammad Talha logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d1d23"/>
+      <stop offset="1" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="14" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#b4b4be"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="16" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d2dcff"/>
+      <stop offset="1" stop-color="#86a0ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#ffffff" stroke-opacity="0.12"/>
+  <!-- M: verticals + converging diagonals -->
+  <path d="M15 49 V15 L32 36 L49 15 V49" fill="none" stroke="url(#silver)" stroke-width="5.5" stroke-linecap="butt" stroke-linejoin="bevel"/>
+  <!-- T: top bar (shared with M) -->
+  <path d="M12.25 15 H51.75" fill="none" stroke="url(#silver)" stroke-width="5.5" stroke-linecap="butt"/>
+  <!-- T: full-height stem in accent -->
+  <path d="M32 17.75 V49" fill="none" stroke="url(#accent)" stroke-width="5.5" stroke-linecap="butt"/>
+</svg>

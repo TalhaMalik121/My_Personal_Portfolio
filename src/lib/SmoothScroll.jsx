@@ -1,45 +1,47 @@
-import { useEffect, useRef } from "react";
-import LocomotiveScroll from "locomotive-scroll";
-import "locomotive-scroll/dist/locomotive-scroll.css";
+import { createContext, useContext, useEffect, useState } from "react";
+import Lenis from "lenis";
 
-export default function SmoothScroll({ children }) {
-  const ref = useRef(null);
+const LenisContext = createContext(null);
+export const useLenis = () => useContext(LenisContext);
+
+/**
+ * Inertial smooth scrolling for the whole page. Uses native scroll under the
+ * hood, so position: sticky and framer-motion's useScroll keep working.
+ */
+export default function SmoothScroll({ children, enabled = true }) {
+  const [lenis, setLenis] = useState(null);
 
   useEffect(() => {
-    const el = ref.current || document.querySelector("[data-scroll-container]");
-    if (!el) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
 
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const instance = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.4,
+      anchors: { offset: -40 },
+    });
+    setLenis(instance);
 
-    if (prefersReduced || isTouch) {
-      // Respect user preferences and avoid heavy effects on touch devices
-      return;
-    }
-
-    const scroll = new LocomotiveScroll({
-      el,
-      smooth: true,
-      multiplier: 1,
-      inertia: 0.8,
+    let raf = requestAnimationFrame(function loop(time) {
+      instance.raf(time);
+      raf = requestAnimationFrame(loop);
     });
 
-    // Expose instance for other components to use (e.g., scrollTo)
-    window.locomotiveScroll = scroll;
-
-    const onLoad = () => scroll.update();
-    window.addEventListener("load", onLoad);
-
     return () => {
-      window.removeEventListener("load", onLoad);
-      if (scroll) scroll.destroy();
-      window.locomotiveScroll = null;
+      cancelAnimationFrame(raf);
+      instance.destroy();
+      setLenis(null);
     };
   }, []);
 
-  return (
-    <div data-scroll-container ref={ref}>
-      {children}
-    </div>
-  );
+  useEffect(() => {
+    if (!lenis) return;
+    if (enabled) lenis.start();
+    else lenis.stop();
+  }, [lenis, enabled]);
+
+  return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;
 }
